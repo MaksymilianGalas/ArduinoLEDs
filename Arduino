@@ -28,7 +28,6 @@ void loop() {
   }
 }
 
-
 void turnOnNeoPixels() {
   if (!neoPixelsOn) {
     neoPixelsOn = true;
@@ -49,8 +48,8 @@ void turnOffNeoPixels() {
 }
 
 void adjustBrightness(int change) {
-  if (brightness + change < 1) {
-    brightness = 1;
+  if (brightness + change < 11) {
+    brightness = 11;
   } else if (brightness + change > 255) {
     brightness = 255;
   } else {
@@ -60,24 +59,18 @@ void adjustBrightness(int change) {
   strip.show();
 }
 
-
-
-
-
-
 void setRainbowEffect() {
-  while (neoPixelsOn) {
-    for (long firstPixelHue = 0; firstPixelHue < 5*65536 && neoPixelsOn; firstPixelHue += 256) {
-      for (int i = 0; i < strip.numPixels(); i++) {
-        int pixelHue = firstPixelHue + (i * 65536L / strip.numPixels());
-        strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
-      }
-      strip.show();
-      delay(random(10, 113));
-      if (IrReceiver.decode()) {
-        handleIRCommand();
-        IrReceiver.resume();
-      }
+  for (long firstPixelHue = 0; firstPixelHue < 5*65536 && neoPixelsOn; firstPixelHue += 256) {
+    for (int i = 0; i < strip.numPixels(); i++) {
+      int pixelHue = firstPixelHue + (i * 65536L / strip.numPixels());
+      strip.setPixelColor(i, strip.gamma32(strip.ColorHSV(pixelHue)));
+    }
+    strip.show();
+    delay(random(10, 113));
+    if (IrReceiver.decode()) {
+      handleIRCommand();
+      IrReceiver.resume();
+      break;
     }
   }
 }
@@ -85,10 +78,9 @@ void setRainbowEffect() {
 void setFlameEffect() {
   brightness = 128;
   int r = 226, g = 121, b = 35;
-
   while (neoPixelsOn) {
     for (int i = 0; i < strip.numPixels(); i++) {
-      int flicker = random(0, 55);
+      int flicker = random(5, 45);
       int r1 = r - flicker;
       int g1 = g - flicker;
       int b1 = b - flicker;
@@ -98,170 +90,143 @@ void setFlameEffect() {
       strip.setPixelColor(i, r1, g1, b1);
     }
     strip.show();
-    delay(random(10, 113));
+    delay(random(30, 113));
     if (IrReceiver.decode()) {
       handleIRCommand();
       IrReceiver.resume();
+      break;
     }
   }
 }
 
-uint32_t Wheel(byte WheelPos) {
-  WheelPos = 255 - WheelPos; 
-  if (WheelPos < 85) {
-    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3); 
-  } else if (WheelPos < 170) {
-    WheelPos -= 85;
-    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3); 
-  } else {
-    WheelPos -= 170;
-    return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
-  }
-}
-
-
-
-
-
 void setYellowEffect() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 200,225,110);
+    strip.setPixelColor(i, 200, 225, 110);
   }
   strip.show();
-
 }
 
-
-
 void setRColor() {
+  Serial.println("red");
   for (int i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, 255, 0, 0);
   }
   strip.show();
-
 }
+
 void setGColor() {
   for (int i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, 0, 255, 0);
   }
   strip.show();
-
 }
+
 void setBColor() {
   for (int i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, 0, 0, 255);
   }
   strip.show();
-
 }
+
 void set8Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 188,36,4);
+    strip.setPixelColor(i, 188, 36, 4);
   }
   strip.show();
-
 }
+
 void set9Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 154,223,173);
+    strip.setPixelColor(i, 154, 223, 173);
   }
   strip.show();
-
 }
+
 void set10Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 28,134,207);
+    strip.setPixelColor(i, 28, 134, 207);
   }
   strip.show();
-
 }
 
 void set12Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 158,14,14);
+    strip.setPixelColor(i, 158, 14, 14);
   }
   strip.show();
 }
 
 void set13Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 109,193,229);
+    strip.setPixelColor(i, 109, 193, 229);
   }
   strip.show();
 }
 
 void set14Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 94,2,255);
+    strip.setPixelColor(i, 94, 2, 255);
   }
   strip.show();
 }
 
 void set16Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 243,132,14);
+    strip.setPixelColor(i, 243, 132, 14);
   }
   strip.show();
 }
 
 void set17Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 67,139,186);
+    strip.setPixelColor(i, 67, 139, 186);
   }
   strip.show();
 }
 
 void set18Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 157,112,212);
+    strip.setPixelColor(i, 157, 112, 212);
   }
   strip.show();
 }
 
 void set20Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 244,255,3);
+    strip.setPixelColor(i, 244, 255, 3);
   }
   strip.show();
 }
 
 void set21Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 62,122,60);
+    strip.setPixelColor(i, 62, 122, 60);
   }
   strip.show();
 }
 
 void set22Color() {
   for (int i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i, 249,8,194);
+    strip.setPixelColor(i, 249, 8, 194);
   }
   strip.show();
 }
-
 
 void setWhiteEffect() {
   for (int i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, 255, 255, 255);
   }
   strip.show();
-
 }
 
-
 int readInfrared() {
-
   if (IrReceiver.decode()) {
-
     unsigned long code = IrReceiver.decodedIRData.decodedRawData;
-
     int button = mapCodeToButton(code);
-
     Serial.print("Raw code: ");
     Serial.print(code, HEX);
     Serial.print(" | Mapped button: ");
     Serial.println(button);
-
     IrReceiver.resume();
     return button;
   }
@@ -271,13 +236,13 @@ int readInfrared() {
 int mapCodeToButton(unsigned long code) {
   if ((code & 0x0000FFFF) == 0x0000EF00) {
     code >>= 16;
-
     if (((code >> 8) ^ (code & 0x00FF)) == 0x00FF) {
       return code & 0xFF;
     }
   }
-  return -1;
+  //return -1;
 }
+
 void handleIRCommand() {
   int button = readInfrared();
   switch (button) {
@@ -329,7 +294,7 @@ void handleIRCommand() {
       break;
     case 11:
       if (neoPixelsOn)
-        setFlameEffect(); // <----------
+        setFlameEffect();
       break;
     case 12:
       if (neoPixelsOn)
@@ -345,7 +310,7 @@ void handleIRCommand() {
       break;
     case 15:
       if (neoPixelsOn)
-        setRainbowEffect(); // <----------
+        setRainbowEffect();
       break;
     case 16:
       if (neoPixelsOn)
@@ -361,7 +326,7 @@ void handleIRCommand() {
       break;
     case 19:
       if (neoPixelsOn)
-        setRainbowEffect(); // <----------
+        setRainbowEffect();
       break;
     case 20:
       if (neoPixelsOn)
@@ -377,7 +342,7 @@ void handleIRCommand() {
       break;
     case 23:
       if (neoPixelsOn)
-        setRainbowEffect(); // <----------
+        setRainbowEffect();
       break;
     default:
       break;
